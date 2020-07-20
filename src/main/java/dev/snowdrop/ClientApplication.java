@@ -2,6 +2,8 @@ package dev.snowdrop;
 
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -9,11 +11,13 @@ import javax.enterprise.context.ApplicationScoped;
 @QuarkusMain
 @ApplicationScoped
 public class ClientApplication implements Runnable, QuarkusApplication {
+    private final Logger logger = LoggerFactory.getLogger(ClientApplication.class);
+    HelloCommand helloCmd;
 
     @Override
     public void run() {
         // business logic
-        System.out.println("Say hello");
+        logger.info("Say from " + helloCmd.name);
     }
 
     @Override
@@ -21,7 +25,7 @@ public class ClientApplication implements Runnable, QuarkusApplication {
         if (args.length <= 0) {
             throw new IllegalArgumentException("No arguments passed");
         } else {
-            HelloCommand helloCmd = new HelloCommand();
+            helloCmd = new HelloCommand();
             CommandLine cl = new CommandLine(helloCmd);
             return cl.execute(args);
         }

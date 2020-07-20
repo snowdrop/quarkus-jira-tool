@@ -14,6 +14,6 @@ public class HelloCommand implements Runnable{
 
     @Override
     public void run() {
-        logger.info("Say hello from the Command");
+        logger.info("Command called ...");
     }
 }
