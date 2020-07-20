@@ -5,15 +5,10 @@ import io.quarkus.runtime.annotations.QuarkusMain;
 import picocli.CommandLine;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 @QuarkusMain
 @ApplicationScoped
-@CommandLine.Command(name = "jira-tool", mixinStandardHelpOptions = true)
 public class ClientApplication implements Runnable, QuarkusApplication {
-
-    @Inject
-    CommandLine.IFactory factory;
 
     @Override
     public void run() {
@@ -26,7 +21,9 @@ public class ClientApplication implements Runnable, QuarkusApplication {
         if (args.length <= 0) {
             throw new IllegalArgumentException("No arguments passed");
         } else {
-            return new CommandLine(this, factory).execute(args);
+            HelloCommand helloCmd = new HelloCommand();
+            CommandLine cl = new CommandLine(helloCmd);
+            return cl.execute(args);
         }
 
     }
