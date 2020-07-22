@@ -23,13 +23,13 @@ public class ClientApplication implements Runnable, QuarkusApplication {
     @Override
     public int run(String... args) throws Exception {
         if (args.length <= 0) {
-            throw new IllegalArgumentException("No arguments passed");
+            logger.warn("Please pass at least an argument to the command : -h");
+            return 0;
         } else {
             ClientApplication clientApplication = new ClientApplication();
             CommandLine cl = new CommandLine(clientApplication);
             return cl.execute(args);
         }
-
     }
 }
 
