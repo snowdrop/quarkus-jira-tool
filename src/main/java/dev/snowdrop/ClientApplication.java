@@ -6,13 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import picocli.CommandLine;
 
-import javax.enterprise.context.ApplicationScoped;
-
 @QuarkusMain
-@ApplicationScoped
+@CommandLine.Command(name = "jira-tool", mixinStandardHelpOptions = true)
 public class ClientApplication implements Runnable, QuarkusApplication {
     private final Logger logger = LoggerFactory.getLogger(ClientApplication.class);
-    HelloCommand helloCmd;
+
+    @CommandLine.Mixin
+    HelloCommand helloCmd = new HelloCommand();
 
     @Override
     public void run() {
@@ -25,8 +25,8 @@ public class ClientApplication implements Runnable, QuarkusApplication {
         if (args.length <= 0) {
             throw new IllegalArgumentException("No arguments passed");
         } else {
-            helloCmd = new HelloCommand();
-            CommandLine cl = new CommandLine(helloCmd);
+            ClientApplication clientApplication = new ClientApplication();
+            CommandLine cl = new CommandLine(clientApplication);
             return cl.execute(args);
         }
 
